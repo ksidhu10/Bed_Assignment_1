@@ -36,17 +36,26 @@ interface PortfolioPerformance {
     };
   }
 
-  interface Asset {
+  export interface Asset {
     name: string;
     value: number;
   }
-  
+ 
   export function findLargestHolding(assets: Asset[]): Asset | null {
     if (assets.length === 0) return null; // Return null if the array is empty
-    
-    return assets.reduce((largest, current) => 
+   
+    return assets.reduce((largest, current) =>
       current.value > largest.value ? current : largest
     );
+  }
+ 
+  export function calculateAssetAllocation(assets: Asset[]): { name: string; allocationPercentage: number }[] {
+    const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0);
+   
+    return assets.map(asset => ({
+      name: asset.name,
+      allocationPercentage: (asset.value / totalValue) * 100
+    }));
   }
 
   
